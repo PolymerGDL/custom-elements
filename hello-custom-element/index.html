@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hello custom elements</title>
+    <style>
+      /* This style affects only to Undefined elements how awesome-label-z */
+      :not(:defined) {
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h1>Hello Custom Elements</h1>
+    <!-- Our awesome label -->
+    <awesome-label></awesome-label>
+    <!-- Unknow element -->
+    <awesome-label-z>Oh no D:</awesome-label-z>
+
+    <script>
+      /* We define class AwesomeLabel, this inherits from HTMLElement*/
+      class AwesomeLabel extends HTMLElement {
+        constructor () {
+          super()
+          this.message = 'Hi, everyone'
+        }
+
+        /* When the element will be added to DOM, this function will be called*/
+        connectedCallback () {
+          this.textContent = this.message
+        }
+
+        /* When the element will be removed to DOM, this function will be called*/
+        disconnectedCallback () {
+          console.log('Goodbye my friend')
+        }
+        
+        /* Define static get property */
+        static get is () {
+          return 'awesome-label'
+        }
+      }
+
+      /* Define element to use in the document*/
+      window.customElements.define(AwesomeLabel.is, AwesomeLabel);
+    </script>
+  </body>
+</html>
