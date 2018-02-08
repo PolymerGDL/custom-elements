@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Import our component, this need be served using web server -->
+  <link rel="import" href="awesome-counter.html">
+  <title>Custom elements</title>
+</head>
+<body>
+  <h1>Import custom element</h1>
+  <awesome-counter>
+    <!-- This will be added into slot -->
+    <h1 slot="title">Mi super contador</h1>
+  </awesome-counter>
+</body>
+</html>

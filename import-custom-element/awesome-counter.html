@@ -1,0 +1,55 @@
+<template id="awesome-counter-template">
+  <style>
+    :host {
+      cursor: pointer;
+    }
+
+    p {
+      color: brown
+    }
+  </style>
+  <slot name="title">Mi contador</slot>
+  <p></p>
+</template>
+<script>
+  class AwesomeCounter extends HTMLElement {
+      constructor () {
+        super()
+        this.counter = 0;
+        let shadow = this.attachShadow({ mode : 'open'})
+        this._addTemplateToShadow(shadow)
+        this.paragraph = this._getParagraphReference(shadow)
+        this._addClick();
+      }
+
+      _addClick () {
+        this.addEventListener('click', e => {
+          this._incrementCounter()
+          this._printCounterDisplay()
+        });
+      }
+
+      _addTemplateToShadow (shadow) {
+        let template = document.currentScript.ownerDocument.querySelector('#awesome-counter-template');
+        let templateInstance = template.content.cloneNode(true)
+        shadow.appendChild(templateInstance)
+      }
+
+      _incrementCounter () {
+        this.counter++
+      }
+
+      _printCounterDisplay () {
+        this.paragraph.textContent = this.counter;
+      }
+      
+      _getParagraphReference (shadow) {
+        return shadow.querySelector('p');
+      }
+
+      connectedCallback () {
+        this._printCounterDisplay()
+      }
+    }
+    window.customElements.define('awesome-counter', AwesomeCounter);
+</script>
