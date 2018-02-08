@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Custom elements Built-In</title>
+  </head>
+  <body>
+    <h1>Custom Elements In the shadows</h1>
+    <!-- In the "is" attributte we set the component's name -->
+    <button is="awesome-button">Soy awesome button</button>
+    <script defer>
+        //inherits from button
+        class AwesomeButton extends HTMLButtonElement {
+        }
+
+        //Define element in 
+        window.customElements.define("awesome-button", AwesomeButton, { extends: "button" });
+
+        let button = document.createElement('button', {is: 'awesome-button'});
+        button.textContent = 'Awesome';
+        document.appendChild(button);
+    </script>
+  </body>
+</html>
