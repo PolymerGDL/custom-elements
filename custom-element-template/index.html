@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Custom elements</title>
+</head>
+<body>
+  <h1>Custom Elements Templates</h1>
+  <awesome-counter></awesome-counter>
+  <template id="awesome-counter-template">
+    <style>
+      :host {
+        cursor: pointer;
+      }
+
+      p {
+        color: brown
+      }
+    </style>
+    <h2>Mi contador</h2>
+  </template>
+  <script>
+    class AwesomeCounter extends HTMLElement {
+      constructor () {
+        super()
+        this.counter = 0;
+        let shadow = this.attachShadow({ mode : 'closed'})
+        let tmpl = document.currentScript.ownerDocument.querySelector('#awesome-counter-template');
+        let node = tmpl.content.cloneNode(true)
+        let paragraph = document.createElement('p')
+        paragraph.textContent = 0
+        node.appendChild(paragraph)
+        shadow.appendChild(node)
+        this.paragraph = paragraph
+        this._addClick();
+      }
+
+      _addClick () {
+        this.addEventListener('click', e => {
+          this._incrementCounter()
+          this._printCounterDisplay()
+        });
+      }
+
+      _incrementCounter () {
+        this.counter++
+      }
+
+      _printCounterDisplay () {
+        this.paragraph.textContent = this.counter;
+      }
+      
+      connectedCallback () {
+        this._printCounterDisplay()
+      }
+    }
+    window.customElements.define('awesome-counter', AwesomeCounter);
+  </script>
+</body>
+</html>
