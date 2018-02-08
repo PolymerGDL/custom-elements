@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Custom elements</title>
+</head>
+<body>
+  <h1>Custom Elements Adding shadow DOM</h1>
+  <awesome-counter></awesome-counter>
+  <script>
+    class AwesomeCounter extends HTMLElement {
+      constructor () {
+        super()
+        this.counter = 0;
+        let shadow = this.attachShadow({ mode : 'open'})
+        shadow.innerHTML =`<p>${this.counter}</p>`
+        this.paragraph = shadow.querySelector('p')
+        this._addClick();
+      }
+
+      _addClick () {
+        this.addEventListener('click', e => {
+          this._incrementCounter()
+          this._printCounterDisplay()
+        });
+      }
+
+      _incrementCounter () {
+        this.counter++
+      }
+
+      _printCounterDisplay () {
+        this.paragraph.textContent = this.counter;
+      }
+
+      /* When the element will be added to DOM, this function will be called*/
+      connectedCallback () {
+        this._printCounterDisplay()
+      }
+
+      /* When the element will be removed to DOM, this function will be called*/
+      disconnectedCallback () {
+        console.log('Goodbye my friend')
+      }
+        
+      /* Define static get property */
+      static get is () {
+        return 'awesome-counter'
+      }
+    }
+    window.customElements.define(AwesomeCounter.is, AwesomeCounter);
+  </script>
+</body>
+</html>
